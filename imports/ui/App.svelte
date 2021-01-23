@@ -18,7 +18,7 @@
 </script>
 
 <header>
-  <h1>YO that's fresh</h1>
+  <h1 class="bg-blue-500">YO that's fresh</h1>
 
   {#if $userId}
     <Logout />
