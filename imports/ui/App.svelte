@@ -1,6 +1,6 @@
 <script>
   import { Router, Link, Route } from "svelte-routing";
-  import MainLayout from "./layouts/MainLayout.svelte";
+  import AppLayout from "./layouts/AppLayout.svelte";
   import { LoginWindow, Logout } from "meteor/levelup:svelte-accounts-ui";
 
   import { useTracker } from "meteor/rdb:svelte-meteor-data";
@@ -9,7 +9,7 @@
 </script>
 
 <Router {url}>
-  <MainLayout>
+  <AppLayout>
     <Route path="/" />
-  </MainLayout>
+  </AppLayout>
 </Router>

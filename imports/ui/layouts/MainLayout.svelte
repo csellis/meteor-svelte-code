@@ -16,7 +16,7 @@
   <MobileMenu {menuOpen} {toggleMenu} />
 
   <div class="flex flex-col w-0 flex-1 overflow-hidden">
-    <div class="md:hidden pl-1 pt-1 sm:pl-3 sm:pt-3">
+    <div class="md:hidden pl-1 pt-1 sm:pl-3 sm:pt-3 bg-gray-400">
       <button
         on:click={toggleMenu}
         class="-ml-0.5 -mt-0.5 h-12 w-12 inline-flex items-center justify-center
