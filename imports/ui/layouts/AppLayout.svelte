@@ -27,7 +27,7 @@
     }
   })();
 
-  // console.log(pageTitle);
+  // todo make class updates
 </script>
 
 <!-- This example requires Tailwind CSS v2.0+ -->
