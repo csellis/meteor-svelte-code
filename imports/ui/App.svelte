@@ -5,11 +5,15 @@
 
   import { useTracker } from "meteor/rdb:svelte-meteor-data";
 
+  import Plan from "./pages/Plan";
+  import Shop from "./pages/Shop";
+
   export let url = "";
 </script>
 
 <Router {url}>
-  <AppLayout>
-    <Route path="/" />
+  <AppLayout {url} {location}>
+    <Route path="/" component={Plan} />
+    <Route path="/shop" component={Shop} />
   </AppLayout>
 </Router>

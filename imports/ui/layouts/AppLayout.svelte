@@ -1,10 +1,10 @@
 <script>
   import { Link } from "svelte-routing";
-  import MobileMenu from "../components/MobileMenu";
-  import SideBar from "../components/SideBar";
 
   export let menuOpen = false;
   export let profileOpen = false;
+  export let location;
+  export let url;
 
   function toggleMobileMenu(event) {
     menuOpen = !menuOpen;
@@ -13,6 +13,21 @@
   function toggleProfile() {
     profileOpen = !profileOpen;
   }
+
+  let pageTitle = (function determineTitle() {
+    switch (location.pathname) {
+      case "/shop":
+        return "Shop";
+        break;
+      case "/":
+        return "Plan";
+        break;
+      default:
+        break;
+    }
+  })();
+
+  // console.log(pageTitle);
 </script>
 
 <!-- This example requires Tailwind CSS v2.0+ -->
@@ -211,39 +226,33 @@
       <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
         <!-- Current: "bg-indigo-700 text-white", Default: "text-white hover:bg-indigo-500 hover:bg-opacity-75" -->
         <a
-          href="#"
+          href="/"
           class="bg-indigo-700 text-white block px-3 py-2 rounded-md text-base
           font-medium">
-          Dashboard
+          Plan
+        </a>
+
+        <a
+          href="/shop"
+          class="text-white hover:bg-indigo-500 hover:bg-opacity-75 block px-3
+          py-2 rounded-md text-base font-medium">
+          Shop
         </a>
 
         <a
           href="#"
           class="text-white hover:bg-indigo-500 hover:bg-opacity-75 block px-3
           py-2 rounded-md text-base font-medium">
-          Team
+          Categories
         </a>
 
         <a
           href="#"
           class="text-white hover:bg-indigo-500 hover:bg-opacity-75 block px-3
           py-2 rounded-md text-base font-medium">
-          Projects
+          Store
         </a>
 
-        <a
-          href="#"
-          class="text-white hover:bg-indigo-500 hover:bg-opacity-75 block px-3
-          py-2 rounded-md text-base font-medium">
-          Calendar
-        </a>
-
-        <a
-          href="#"
-          class="text-white hover:bg-indigo-500 hover:bg-opacity-75 block px-3
-          py-2 rounded-md text-base font-medium">
-          Reports
-        </a>
       </div>
       <div class="pt-4 pb-3 border-t border-indigo-700">
         <div class="flex items-center px-5">
@@ -311,7 +320,7 @@
 
   <header class="bg-white shadow-sm">
     <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-      <h1 class="text-lg leading-6 font-semibold text-gray-900">Dashboard</h1>
+      <h1 class="text-lg leading-6 font-semibold text-gray-900">{pageTitle}</h1>
     </div>
   </header>
   <main>
