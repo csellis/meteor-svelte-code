@@ -1,7 +1,55 @@
-import { Categories } from "../api/collections";
+import { UserItems, Categories, Items } from "../api/collections";
 
 Meteor.methods({
-  'Items.add'({ name }) {
+  'UserItems.add'(itemId) {
+
+    const item = Items.findOne(itemId);
+
+    const userItem = {
+      userId: this.userId,
+      itemId,
+      itemName: item.name,
+      categoryId: item.categoryId,
+      categoryName: item.categoryName,
+      picked: false,
+      createdAt: new Date(),
+    }
+    return UserItems.insert(userItem)
+  },
+  'Items.add'(name) {
+    const userId = this.userId;
+    // console.log({ name })
+    // check if name exists
+    const itemExists = Items.findOne({ name });
+    var itemId;
+
+    if (itemExists) {
+      itemId = itemExists._id;
+    } else {
+      // find global category for Uncategorized
+      const uncategorized = Categories.findOne({ name: "Uncategorized" });
+      // console.log({ uncategorized })
+
+      // build item
+      const item = {
+        name,
+        createdBy: userId,
+        categoryName: uncategorized.name,
+        categoryId: uncategorized._id,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+
+      itemId = Items.insert(item);
+    }
+
+    // add to user's list
+    Meteor.call('UserItems.add', itemId, (err, res) => {
+      if (err) console.warn(err);
+
+
+    })
+
 
   },
   'Categories.add'({ name }) {
@@ -16,11 +64,11 @@ Meteor.methods({
     }
 
     // Determine rank for new category
-    var highestCategoryRank = Categories.find().count() - 1;
+    var nextRank = Categories.find().fetch().count();
 
     var item = {
       name,
-      rank: highestCategoryRank + 1,
+      rank: nextRank,
       created: new Date()
     }
 

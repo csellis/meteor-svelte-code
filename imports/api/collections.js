@@ -1,5 +1,11 @@
 import { Mongo } from "meteor/mongo";
 
+if(Meteor.isServer) {
+  Meteor.startup(function () {  
+    Items._ensureIndex({ "name": "text"});
+  });
+}
+
 export const Categories = new Mongo.Collection("categories");
 // model Category {
 //   id    Int    @id @default(autoincrement())
@@ -7,16 +13,7 @@ export const Categories = new Mongo.Collection("categories");
 //   items Item[]
 // }
 
-export const Items = new Mongo.Collection("items");
-// model Item {
-//   id         Int      @id @default(autoincrement())
-//   name       String
-//   published  Boolean  @default(true)
-//   category   Category @relation(fields: [categoryId], references: [id])
-//   categoryId Int
-//   createdAt  DateTime @default(now())
-//   updatedAt  DateTime @updatedAt
-// }
+
 
 export const Stores = new Mongo.Collection("stores");
 // model Store {
@@ -45,6 +42,32 @@ export const StoreCategories = new Mongo.Collection("storeCategories");
 //   stores Store[]
 // }
 
+export const Items = new Mongo.Collection("items");
+// model Item {
+//   id         Int      @id @default(autoincrement())
+//   name       String
+//   published  Boolean  @default(true)
+//   category   Category @relation(fields: [categoryId], references: [id])
+//   categoryId Int
+//   createdAt  DateTime @default(now())
+//   updatedAt  DateTime @updatedAt
+// }
+
+if (Meteor.isServer) {
+  // This code only runs on the server
+  Meteor.publish('itemsSearch', function itemsSearch(query) {
+    // console.log({ query })
+    var regex = new RegExp( query, "i");
+    // console.log({regex})
+    const items= Items.find({ name: {
+      $regex: regex
+    }})
+    // console.log(items.fetch())
+    return items;
+    // return Tasks.find();
+  });
+}
+
 export const UserItems = new Mongo.Collection("userItems");
 // model UserItem {
 //   id           Int      @id @default(autoincrement())
@@ -58,3 +81,12 @@ export const UserItems = new Mongo.Collection("userItems");
 //   createdAt    DateTime @default(now())
 //   updatedAt    DateTime @default(now())
 // }
+
+if (Meteor.isServer) {
+  // This code only runs on the server
+  Meteor.publish('userItems', function userItems() {
+    // console.log({ query })
+    return UserItems.find({ userId: this.userId })
+    // return Tasks.find();
+  });
+}
