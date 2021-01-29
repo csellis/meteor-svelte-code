@@ -15,6 +15,8 @@ export const Categories = new Mongo.Collection("categories");
 
 
 
+
+
 export const Stores = new Mongo.Collection("stores");
 // model Store {
 //   id            Int             @id @default(autoincrement())

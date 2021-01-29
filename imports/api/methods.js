@@ -1,6 +1,31 @@
 import { UserItems, Categories, Items } from "../api/collections";
 
 Meteor.methods({
+  'Items.categorize'(itemId, categoryId) {
+    const category = Categories.findOne(categoryId);
+    // console.log({category, item})
+
+    const updatedItems = Items.update({_id: itemId}, {
+      $set: {
+        "categoryId": categoryId,
+        "categoryName": category.name,
+        "updatedAt": new Date()
+      }
+    });
+
+    const updateUserItems = UserItems.update({ itemId }, {
+      $set: {
+        categoryId,
+        categoryName: category.name,
+      }
+    });
+
+    return {
+      updatedItems,
+      updateUserItems
+    }
+
+  },
   'UserItems.add'(itemId) {
 
     const item = Items.findOne(itemId);
@@ -46,11 +71,7 @@ Meteor.methods({
     // add to user's list
     Meteor.call('UserItems.add', itemId, (err, res) => {
       if (err) console.warn(err);
-
-
     })
-
-
   },
   'Categories.add'({ name }) {
     // Create a new Global Category
