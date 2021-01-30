@@ -4,7 +4,9 @@
   const dispatch = createEventDispatcher();
   
   export let userItem;
+  export let isShopping;
   let isSelected = false;
+  
 
   function selectUserItem() {
     dispatch('selectUserItem', {
@@ -20,7 +22,9 @@
   <span>
   {userItem.itemName}
   </span>
+  {#if !isShopping}
   <span class="text-gray-500">
   {userItem.categoryName}
   </span>
+  {/if}
 </li>

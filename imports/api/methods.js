@@ -29,6 +29,8 @@ Meteor.methods({
   'UserItems.add'(itemId) {
 
     const item = Items.findOne(itemId);
+    const category = Categories.findOne(item.categoryId);
+    console.log(item)
 
     const userItem = {
       userId: this.userId,
@@ -36,6 +38,7 @@ Meteor.methods({
       itemName: item.name,
       categoryId: item.categoryId,
       categoryName: item.categoryName,
+      categoryRank: category.rank,
       picked: false,
       createdAt: new Date(),
     }

@@ -15,8 +15,9 @@
   $: query = search;
   $: itemsResults = useTracker(() => Items.find({}).fetch());
   $: userItems = useTracker(() => {
-    const userItems = UserItems.find({}, {sort: { created: 1}}).fetch();
+    const userItems = UserItems.find({}, {sort: { createdAt: -1}}).fetch();
 
+  // console.log(userItems)
     const uncategorizedUserItems = userItems.filter(userItem => userItem.categoryName === "Uncategorized")
     const categorizedUserItems = userItems.filter(userItem => userItem.categoryName !== "Uncategorized")
 
@@ -73,6 +74,14 @@
       if (err) console.warn(err);
     })
   }
+
+  function selectExistingItem(itemId) {
+    Meteor.call("UserItems.add", itemId, (err, res) => {
+      if (err) console.warn(err);
+    });
+    search = "";
+  }
+
 </script>
 
 <div class="w-full relative">
@@ -100,9 +109,9 @@
 <div class="bg-white border border-gray-300 overflow-hidden rounded-md absolute mt-2 w-full">
   <ul class="divide-y divide-gray-300">
     {#each $itemsResults as item}
-    <li class="cursor-pointer px-6 py-4" key={item._id}>
-      {item.name}
-    </li>
+      <li on:click={selectExistingItem(item._id)} class="cursor-pointer px-6 py-4" key={item._id}>
+        {item.name}
+      </li>
     {/each}
             <li on:click={addItem} class="cursor-pointer px-6 py-4">
           Add
@@ -122,7 +131,7 @@
           </span>
         </li>
       {#each $userItems.uncategorizedUserItems as userItem}
-        <UserItem on:selectUserItem={selectUserItem} {userItem} />
+        <UserItem on:selectUserItem={selectUserItem} {userItem} isShopping={false} />
       {/each}
     </ul>
   </div>
@@ -137,7 +146,7 @@
         </span>
       </li>
       {#each $userItems.categorizedUserItems as userItem}
-        <UserItem on:selectUserItem={selectUserItem} {userItem} />
+        <UserItem on:selectUserItem={selectUserItem} {userItem} isShopping={false} />
       {/each}
     </ul>
   </div>

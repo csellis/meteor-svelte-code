@@ -20,7 +20,7 @@ Meteor.startup(() => {
       }
       Meteor.call('Categories.add', item, function (error, result) {
         if (error) console.log(error);
-        console.log(result)
+        // console.log(result)
       });
     });
   }
