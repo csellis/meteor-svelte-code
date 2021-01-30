@@ -10,6 +10,8 @@
 
   onMount(async () => {
     Meteor.subscribe("allCategories");
+
+    document.querySelector("#category").focus()
   });
 
   $: categoryResults = useTracker(() => {
@@ -33,7 +35,8 @@
   }
 
   function handleClick(categoryId, itemId) {
-    console.log(categoryId, itemId)
+    // console.log(categoryId, itemId)
+    isSelected = false;
 
     Meteor.call('Items.categorize', itemId, categoryId, (err, res) => {
       if(err) console.warn(err);
@@ -57,7 +60,7 @@
         <div class="absolute w-full bg-white border border-gray-300 overflow-hidden rounded-md">
           <ul class="divide-y divide-gray-300">
           {#each $categoryResults as category}
-            <li  on:click={handleClick(category._id, selectedUserItem.itemId)} class="px-6 py-4" key={category._id}>
+            <li on:click={handleClick(category._id, selectedUserItem.itemId)} class="px-6 py-4 cursor-pointer" key={category._id}>
               {category.name}
             </li>
             {/each}

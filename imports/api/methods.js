@@ -41,6 +41,9 @@ Meteor.methods({
     }
     return UserItems.insert(userItem)
   },
+  'UserItems.remove'(userItemId) {
+    return UserItems.remove(userItemId);
+  },
   'Items.add'(name) {
     const userId = this.userId;
     // console.log({ name })
@@ -85,7 +88,7 @@ Meteor.methods({
     }
 
     // Determine rank for new category
-    var nextRank = Categories.find().fetch().count();
+    var nextRank = Categories.find().fetch().length;
 
     var item = {
       name,

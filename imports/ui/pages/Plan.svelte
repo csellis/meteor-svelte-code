@@ -14,7 +14,18 @@
 
   $: query = search;
   $: itemsResults = useTracker(() => Items.find({}).fetch());
-  $: userItems = useTracker(() => UserItems.find({}).fetch());
+  $: userItems = useTracker(() => {
+    const userItems = UserItems.find({}, {sort: { created: 1}}).fetch();
+
+    const uncategorizedUserItems = userItems.filter(userItem => userItem.categoryName === "Uncategorized")
+    const categorizedUserItems = userItems.filter(userItem => userItem.categoryName !== "Uncategorized")
+
+    return {
+      uncategorizedUserItems,
+      categorizedUserItems
+    }
+  })
+  
   $: selectedUserItemRecord = useTracker(() => {
       const userItem = UserItems.findOne(selectedUserItem);
       console.log("hello")
@@ -55,8 +66,15 @@
     selectedUserItem = {}
   }
 
+  function removeUserItem(userItemId) {
+    selectedUserItem = {}
 
+    Meteor.call("UserItems.remove", userItemId, (err, res) => {
+      if (err) console.warn(err);
+    })
+  }
 </script>
+
 <div class="w-full relative">
 
 <form on:submit|preventDefault={handleSubmit}>
@@ -82,11 +100,11 @@
 <div class="bg-white border border-gray-300 overflow-hidden rounded-md absolute mt-2 w-full">
   <ul class="divide-y divide-gray-300">
     {#each $itemsResults as item}
-    <li class="px-6 py-4" key={item._id}>
+    <li class="cursor-pointer px-6 py-4" key={item._id}>
       {item.name}
     </li>
     {/each}
-            <li on:click={addItem} class="px-6 py-4">
+            <li on:click={addItem} class="cursor-pointer px-6 py-4">
           Add
             <strong>{search}</strong>
             ?
@@ -95,15 +113,30 @@
 </div>
 {/if}
 
+  {#if $userItems.uncategorizedUserItems.length > 0}
+  <div class="bg-white border border-gray-300 overflow-hidden rounded-md mt-4">
+    <ul class="divide-y divide-gray-300">
+        <li class="px-6 py-4 flex justify-between bg-red-100">
+          <span>
+          Uncategorized Items
+          </span>
+        </li>
+      {#each $userItems.uncategorizedUserItems as userItem}
+        <UserItem on:selectUserItem={selectUserItem} {userItem} />
+      {/each}
+    </ul>
+  </div>
+  {/if}
+
 
   <div class="bg-white border border-gray-300 overflow-hidden rounded-md mt-4">
     <ul class="divide-y divide-gray-300">
-        <li class="px-6 py-4 flex justify-between">
+        <li class="px-6 py-4 flex justify-between bg-indigo-50">
         <span>
         Items
         </span>
       </li>
-      {#each $userItems as userItem}
+      {#each $userItems.categorizedUserItems as userItem}
         <UserItem on:selectUserItem={selectUserItem} {userItem} />
       {/each}
     </ul>
@@ -168,9 +201,12 @@
           </div>
         </div>
       </div>
-      <div class="mt-5 sm:mt-6">
+      <div class="mt-5 sm:mt-6 grid grid-cols-2 gap-2">
         <button on:click={clearUserItem} type="button" class="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
-          Go back to dashboard
+          Back
+        </button>
+        <button on:click={removeUserItem(selectedUserItem._id)} type="button" class="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
+          Remove Item
         </button>
       </div>
     </div>
