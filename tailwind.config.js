@@ -1,8 +1,11 @@
 module.exports = {
-  purge: [
-    './client/**/*.html',
-    './client/**/*.svelte'
-  ],
+  purge: {
+    enabled: true,
+    content : [
+      './client/**/*.html',
+      './imports/**/*.svelte'
+    ]
+  },
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {},

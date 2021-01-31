@@ -1,11 +1,12 @@
 {
-  "name": "resolutions",
+  "name": "grocerylist",
   "private": true,
   "scripts": {
     "start": "meteor run",
     "test": "meteor test --once --driver-package meteortesting:mocha",
     "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
-    "visualize": "meteor --production --extra-packages bundle-visualizer"
+    "visualize": "meteor --production --extra-packages bundle-visualizer",
+    "deploy": "meteor deploy grocerylist.meteorapp.com --free --mongo"
   },
   "dependencies": {
     "@babel/runtime": "^7.8.3",
@@ -30,8 +31,15 @@
     "eslint": "^7.19.0",
     "eslint-plugin-svelte3": "^3.0.0",
     "postcss": "^8.2.4",
+    "postcss-import": "^14.0.0",
     "postcss-load-config": "^3.0.0",
     "prettier": "^2.2.1",
     "prettier-plugin-svelte": "^2.1.1"
+  },
+  "postcss": {
+    "plugins": {
+      "postcss-import": {},
+      "tailwindcss": {}
+    }
   }
 }
