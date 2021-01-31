@@ -6,6 +6,7 @@
   import UserItem from '../components/UserItem';
   import SelectCategory from '../components/SelectCategory';
   import CategoryUserItems from '../components/CategoryUserItems';
+  import PickedUserItems from '../components/PickedUserItems';
   
 
   export let location;
@@ -19,7 +20,9 @@
     const userItems = UserItems.find({}, {sort: { categoryRank: 1}}).fetch();
 
     const uncategorizedUserItems = userItems.filter(userItem => userItem.categoryName === "Uncategorized")
-    const categorizedUserItems = userItems.filter(userItem => userItem.categoryName !== "Uncategorized")
+    const categorizedUserItems = userItems.filter(userItem => {
+      return userItem.categoryName !== "Uncategorized";
+    });
     
     const categories = [];
     categorizedUserItems.forEach(userItem => {
@@ -43,7 +46,7 @@
     return {
       uncategorizedUserItems,
       categorizedUserItems,
-      categories
+      categories,
     }
   })
   
@@ -52,11 +55,6 @@
       console.log("hello")
       return userItem;
   })
-  // $: showModal = () => Object.keys(selectUserItem).length > 0;
-
-  // $: filteredItems = {
-  //   return $UserItems.filter(userItem => userItem.categoryId === categoryId);
-  // }
 
   $: {
       subscription?.stop();
@@ -84,7 +82,10 @@
 
   function selectUserItem (event) {
     const selected = event.detail.userItem;
-    console.log(selected)
+    Meteor.call("UserItems.togglePickItem", selected._id, (err, res) => {
+      if(err) console.warn(err)
+      console.log(res)
+    })
   }
 
 
@@ -119,11 +120,12 @@
           {category.categoryName}: {category.categoryRank}
           </span>
         </li>
-        <CategoryUserItems userItems={$userItems} categoryId={category.categoryId} />
+        <CategoryUserItems categoryId={category.categoryId} />
       {/each}
     </ul>
   </div>
 
+  <PickedUserItems />
 </div>
 
 

@@ -22,9 +22,15 @@
   <span>
   {userItem.itemName}
   </span>
-  {#if !isShopping}
+
+
+  {#if isShopping}
   <span class="text-gray-500">
   {userItem.categoryName}
+
   </span>
+  {:else}
+    <span class="text-gray-500">
+    </span>
   {/if}
 </li>

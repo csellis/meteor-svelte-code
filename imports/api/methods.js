@@ -44,8 +44,22 @@ Meteor.methods({
     }
     return UserItems.insert(userItem)
   },
+  'UserItems.checkout'() {
+    return UserItems.remove({userId: this.userId, picked: true})
+  },
   'UserItems.remove'(userItemId) {
     return UserItems.remove(userItemId);
+  },
+  'UserItems.togglePickItem'(_id) {
+    const userItem = UserItems.findOne(_id);
+    // console.log(userItem)
+    UserItems.update({_id}, {
+      $set: {
+        picked: !userItem.picked
+      }
+    })
+    // const updated = UserItems.findOne(_id)
+    // console.log(updated)
   },
   'Items.add'(name) {
     const userId = this.userId;
