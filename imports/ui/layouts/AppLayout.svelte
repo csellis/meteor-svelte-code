@@ -7,9 +7,16 @@
   export let profileOpen = false;
   export let location;
   export let url;
+  let title = "Title";
 
+console.log(location.pathname)
   $: user = useTracker(() => Meteor.user());
   $: userId = useTracker(() => Meteor.userId());
+  $: if (location.pathname === "/shop") {
+    title = "Shop"
+  } else {
+    title = "Plan"
+  }
 
   function toggleMobileMenu(event) {
     menuOpen = !menuOpen;
@@ -22,6 +29,7 @@
   function logout() {
     Meteor.logout();
   }
+
 
   // todo make class updates
 </script>
@@ -209,6 +217,7 @@
           <!-- Current: "bg-indigo-700 text-white", Default: "text-white hover:bg-indigo-500 hover:bg-opacity-75" -->
           <Link
             to="/"
+            on:click={toggleMobileMenu}
             class="bg-indigo-700 text-white block px-3 py-2 rounded-md text-base
             font-medium">
             Plan
@@ -216,6 +225,7 @@
 
           <Link
             to="/shop"
+            on:click={toggleMobileMenu}
             class="text-white hover:bg-indigo-500 hover:bg-opacity-75 block px-3
             py-2 rounded-md text-base font-medium">
             Shop
@@ -228,13 +238,13 @@
           <div class="flex-shrink-0">
             <img
               class="h-10 w-10 rounded-full"
-              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+              src=""
               alt="" />
           </div>
           <div class="ml-3">
-            <div class="text-base font-medium text-white">Tom Cook</div>
+            <div class="text-base font-medium text-white">Chris Ellis</div>
             <div class="text-sm font-medium text-indigo-300">
-              tom@example.com
+              ellis.cs@gmail.com
             </div>
           </div>
           <button
@@ -286,7 +296,9 @@
 
   <header class="bg-white shadow-sm">
     <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-      <h1 class="text-lg leading-6 font-semibold text-gray-900">Page Title</h1>
+      <h1 class="text-lg leading-6 font-semibold text-gray-900">
+        {title}
+      </h1>
     </div>
   </header>
   <main>

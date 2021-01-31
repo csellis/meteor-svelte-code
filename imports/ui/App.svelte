@@ -16,11 +16,12 @@
   } else {
     navigate("/login", { replace: true });
   }
+
 </script>
 
 <Router {url}>
   <AppLayout {url} {location}>
-    <Route path="/" component={Plan} />
+    <Route path="/" component={Plan} title="Plan" />
     <Route path="/shop" component={Shop} />
     <Route path="/login" component={Login} />
   </AppLayout>

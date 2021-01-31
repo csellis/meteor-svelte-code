@@ -14,18 +14,9 @@
   // console.log(userItems)
    $: userItems = useTracker(() => {
      const userItems = UserItems.find({ categoryId, picked: false}).fetch();
-     console.log({categoryId, userItems})
+    //  console.log({categoryId, userItems})
      return userItems;
    });
-
-  // $: filteredItems = categoryId
-	// 	? userItems.categorizedUserItems.filter(userItem => {
-  //     console.log(userItem)
-  //     return userItem.categoryId === categoryId ? userItem : null 
-	// 	})
-  //   : userItems.categorizedUserItems;
-    
-
   
   function selectUserItem (event) {
     const selected = event.detail.userItem;
@@ -34,7 +25,7 @@
       if(err) console.warn(err)
       console.log(res)
     })
-    console.log(selected)
+    // console.log(selected)
   }
 </script>
 

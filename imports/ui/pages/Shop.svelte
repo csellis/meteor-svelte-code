@@ -94,8 +94,6 @@
 
 <div class="w-full relative">
 
-  <h2 class="text-3xl">Shop</h2>
-
   {#if $userItems.uncategorizedUserItems.length > 0}
   <div class="bg-white border border-gray-300 overflow-hidden rounded-md mt-4">
     <ul class="divide-y divide-gray-300">
