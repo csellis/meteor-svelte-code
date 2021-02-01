@@ -7,6 +7,7 @@
   import Plan from "./pages/Plan";
   import Shop from "./pages/Shop";
   import Login from "./pages/Login";
+  import Categories from "./pages/Categories";
 
   $: userId = useTracker(() => Meteor.userId());
   export let url = "";
@@ -24,5 +25,6 @@
     <Route path="/" component={Plan} title="Plan" />
     <Route path="/shop" component={Shop} />
     <Route path="/login" component={Login} />
+    <Route path="/categories" component={Categories} />
   </AppLayout>
 </Router>

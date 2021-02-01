@@ -64,6 +64,13 @@ console.log(location.pathname)
                   py-2 rounded-md text-sm font-medium">
                   Shop
                 </Link>
+
+                <Link
+                  to="/categories"
+                  class="text-white hover:bg-indigo-500 hover:bg-opacity-75 px-3
+                  py-2 rounded-md text-sm font-medium">
+                  Categories
+                </Link>
               {/if}
 
             </div>
@@ -229,6 +236,14 @@ console.log(location.pathname)
             class="text-white hover:bg-indigo-500 hover:bg-opacity-75 block px-3
             py-2 rounded-md text-base font-medium">
             Shop
+          </Link>
+
+          <Link
+            to="/categories"
+            on:click={toggleMobileMenu}
+            class="text-white hover:bg-indigo-500 hover:bg-opacity-75 block px-3
+            py-2 rounded-md text-base font-medium">
+            Categories
           </Link>
         {/if}
 

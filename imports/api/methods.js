@@ -1,6 +1,16 @@
 import { UserItems, Categories, Items } from "../api/collections";
 
 Meteor.methods({
+  'Categories.reorder'(categories) {
+    // console.log(categories)
+    categories.forEach((category, index) => {
+      Categories.update({_id: category._id}, {
+        $set: {
+          rank: index
+        }
+      })
+    })
+  },
   'Items.categorize'(itemId, categoryId) {
     const category = Categories.findOne(categoryId);
     // console.log({category, item})
