@@ -47,7 +47,7 @@
           </span>
         </li>
     {#each $userItems as userItem}
-      <UserItem on:selectUserItem={selectUserItem} {userItem} isShopping={true} />
+      <UserItem on:selectUserItem={selectUserItem} {userItem} showCategory={true} />
     {/each}
     </ul>
   </div>

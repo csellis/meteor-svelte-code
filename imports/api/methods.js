@@ -27,6 +27,7 @@ Meteor.methods({
       $set: {
         categoryId,
         categoryName: category.name,
+        categoryRank: category.rank
       }
     });
 
@@ -40,7 +41,7 @@ Meteor.methods({
 
     const item = Items.findOne(itemId);
     const category = Categories.findOne(item.categoryId);
-    console.log(item)
+    console.log({item, category})
 
     const userItem = {
       userId: this.userId,

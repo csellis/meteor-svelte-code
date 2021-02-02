@@ -19,6 +19,8 @@
   $: userItems = useTracker(() => {
     const userItems = UserItems.find({}, {sort: { categoryRank: 1}}).fetch();
 
+
+
     const uncategorizedUserItems = userItems.filter(userItem => userItem.categoryName === "Uncategorized")
     const categorizedUserItems = userItems.filter(userItem => {
       return userItem.categoryName !== "Uncategorized";
@@ -41,7 +43,7 @@
 
     // const categories = categorizedUserItems.filter()
 
-    // console.log({categories})
+    // console.log({categories, uncategorizedUserItems, categorizedUserItems})
 
     return {
       uncategorizedUserItems,
@@ -103,7 +105,7 @@
           </span>
         </li>
       {#each $userItems.uncategorizedUserItems as userItem}
-        <UserItem on:selectUserItem={selectUserItem} {userItem} isShopping={false} />
+        <UserItem on:selectUserItem={selectUserItem} {userItem} showCategory={false} />
       {/each}
     </ul>
   </div>
@@ -113,12 +115,12 @@
   <div class="bg-white border border-gray-300 overflow-hidden rounded-md mt-4">
     <ul class="divide-y divide-gray-300">
       {#each $userItems.categories as category}
-        <li class="px-6 py-4 flex justify-between bg-indigo-50">
+        <!-- <li class="px-6 py-4 flex justify-between bg-indigo-50">
           <span>
-          {category.categoryName}: {category.categoryRank}
+          {category.categoryRank}: {category.categoryName}
           </span>
-        </li>
-        <CategoryUserItems categoryId={category.categoryId} />
+        </li> -->
+        <CategoryUserItems categoryId={category.categoryId} {category} />
       {/each}
     </ul>
   </div>

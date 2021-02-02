@@ -131,7 +131,7 @@
           </span>
         </li>
       {#each $userItems.uncategorizedUserItems as userItem}
-        <UserItem on:selectUserItem={selectUserItem} {userItem} isShopping={false} />
+        <UserItem on:selectUserItem={selectUserItem} {userItem} showCategory={false} />
       {/each}
     </ul>
   </div>
@@ -146,7 +146,7 @@
         </span>
       </li>
       {#each $userItems.categorizedUserItems as userItem}
-        <UserItem on:selectUserItem={selectUserItem} {userItem} isShopping={false} />
+        <UserItem on:selectUserItem={selectUserItem} {userItem} showCategory={true} />
       {/each}
     </ul>
   </div>

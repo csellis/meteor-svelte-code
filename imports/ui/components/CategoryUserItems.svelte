@@ -10,6 +10,7 @@
     import UserItem from './UserItem';
   
     export let categoryId;
+    export let category;
 
   // console.log(userItems)
    $: userItems = useTracker(() => {
@@ -17,6 +18,10 @@
     //  console.log({categoryId, userItems})
      return userItems;
    });
+  //  $: hasItems = {
+  //    console.log(userItems.length > 0)
+  //  }
+
   
   function selectUserItem (event) {
     const selected = event.detail.userItem;
@@ -29,7 +34,13 @@
   }
 </script>
 
-
-{#each $userItems as userItem}
-  <UserItem on:selectUserItem={selectUserItem} {userItem} isShopping={true} />
-{/each}
+{#if $userItems.length > 0}
+  <li class="px-6 py-4 flex justify-between bg-indigo-50">
+    <span>
+    {category.categoryRank}: {category.categoryName}
+    </span>
+  </li>
+  {#each $userItems as userItem}
+    <UserItem on:selectUserItem={selectUserItem} {userItem} showCategory={true} />
+  {/each}
+{/if}
