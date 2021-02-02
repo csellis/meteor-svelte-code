@@ -1,4 +1,4 @@
-import { UserItems, Categories, Items } from "../api/collections";
+import { UserItems, Categories, Items, PickedItems } from "./collections";
 
 Meteor.methods({
   'Categories.reorder'(categories) {
@@ -55,6 +55,11 @@ Meteor.methods({
     return UserItems.insert(userItem)
   },
   'UserItems.checkout'() {
+    const picked = UserItems.find({userId: this.userId, picked: true}).fetch();
+    // console.log(picked)
+    picked.forEach(item => {
+      PickedItems.insert(item)
+    })
     return UserItems.remove({userId: this.userId, picked: true})
   },
   'UserItems.remove'(userItemId) {
@@ -65,7 +70,8 @@ Meteor.methods({
     // console.log(userItem)
     UserItems.update({_id}, {
       $set: {
-        picked: !userItem.picked
+        picked: !userItem.picked,
+        updatedAt: new Date()
       }
     })
     // const updated = UserItems.findOne(_id)
@@ -128,6 +134,9 @@ Meteor.methods({
       _id: itemId
     };
   },
+  'PickedItems.clear'() {
+    return PickedItems.remove({userId: this.userId})
+  }
 });
 
 // model Item {

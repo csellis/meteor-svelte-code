@@ -92,3 +92,5 @@ if (Meteor.isServer) {
     // return Tasks.find();
   });
 }
+
+export const PickedItems = new Mongo.Collection('pickedItems');
