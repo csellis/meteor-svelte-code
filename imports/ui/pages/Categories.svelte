@@ -18,8 +18,16 @@
   })  
   $: pickedItems = useTracker(() => {
     const pickedItems  = PickedItems.find({}, { sort: { updatedAt: 1}}).fetch();
-    console.log({pickedItems})
-    return pickedItems
+    let options = {hour: "numeric", minute: "numeric", dayPeriod: "short"};
+    const items = pickedItems.map(item => {
+      return {
+        ...item,
+        pickedTime: new Intl.DateTimeFormat('en-GB', options).format(item.updatedAt)
+      }
+    })
+    console.log({items})
+    
+    return items
   })
 
   let hovering = false;
@@ -99,7 +107,7 @@
             on:dragenter={() => hovering = index}
             class:is-active={hovering === index}
           >
-            {item.rank}: {item.name}
+            {item.rank}: {item.name} 
           </li>
         {/each}
       </ul>
@@ -112,8 +120,14 @@
             Picked Items:
           </li>
         {#each $pickedItems as item, index (item._id)}
-          <li class="cursor-pointer px-6 py-4">
-            {item.itemName}: {item.categoryRank}
+          <li class="cursor-pointer px-6 py-4 flex justify-between">
+            <span>
+            {item.categoryRank}: {item.categoryName}
+            </span>
+            
+            <span>
+            {item.pickedTime}
+            </span>
           </li>
         {:else}
           <li class="cursor-pointer px-6 py-4">

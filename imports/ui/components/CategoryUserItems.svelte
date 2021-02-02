@@ -35,11 +35,6 @@
 </script>
 
 {#if $userItems.length > 0}
-  <li class="px-6 py-4 flex justify-between bg-indigo-50">
-    <span>
-    {category.categoryRank}: {category.categoryName}
-    </span>
-  </li>
   {#each $userItems as userItem}
     <UserItem on:selectUserItem={selectUserItem} {userItem} showCategory={true} />
   {/each}
