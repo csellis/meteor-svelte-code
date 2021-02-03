@@ -22,13 +22,11 @@
   Window.UserItems = UserItems;
   // Window.Meteor.users = Meteor.users
  
-
-
 </script>
 
 <Router {url}>
   <AppLayout {url} {location}>
-    <Route path="/" component={Plan} title="Plan" />
+    <Route path="/" component={Plan} />
     <Route path="/shop" component={Shop} />
     <Route path="/login" component={Login} />
     <Route path="/categories" component={Categories} />

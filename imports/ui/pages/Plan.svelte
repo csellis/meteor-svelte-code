@@ -2,6 +2,7 @@
   import { onMount, afterUpdate } from "svelte";
   import { useTracker } from "meteor/rdb:svelte-meteor-data";
   import { Items, UserItems } from "../../api/collections";
+  import Header from "../components/Header";
 
   import UserItem from '../components/UserItem';
   import SelectCategory from '../components/SelectCategory';
@@ -85,6 +86,9 @@
 </script>
 
 <div class="w-full relative">
+
+<Header title="Plan" />
+
 
 <form on:submit|preventDefault={handleSubmit}>
   <div>

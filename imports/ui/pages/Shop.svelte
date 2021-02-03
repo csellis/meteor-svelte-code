@@ -7,6 +7,8 @@
   import SelectCategory from '../components/SelectCategory';
   import CategoryUserItems from '../components/CategoryUserItems';
   import PickedUserItems from '../components/PickedUserItems';
+  import Header from "../components/Header";
+
   
 
   export let location;
@@ -96,6 +98,8 @@
 
 <div class="w-full relative">
 
+<Header title="Shop" />
+
   {#if $userItems.uncategorizedUserItems.length > 0}
   <div class="bg-white border border-gray-300 overflow-hidden rounded-md mt-4">
     <ul class="divide-y divide-gray-300">
@@ -112,6 +116,7 @@
   {/if}
 
 
+  
   <div class="bg-white border border-gray-300 overflow-hidden rounded-md mt-4">
     <ul class="divide-y divide-gray-300">
       {#each $userItems.categories as category}
@@ -121,6 +126,12 @@
           </span>
         </li> -->
         <CategoryUserItems categoryId={category.categoryId} {category} />
+        {:else}
+          <li class="px-6 py-4 flex justify-between">
+            <span>
+              No items
+            </span>
+          </li>
       {/each}
     </ul>
   </div>

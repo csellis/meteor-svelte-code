@@ -6,6 +6,8 @@
 
   import UserItem from '../components/UserItem';
   import SelectCategory from '../components/SelectCategory';
+  import Header from "../components/Header";
+
   
 
   export let location;
@@ -82,7 +84,10 @@
 </script>
 
 <div class="w-full relative">
-<div class="flex justify-between">
+
+<Header title="Categories" />
+
+<div class="flex justify-between mt-4">
   <button on:click={save} class="bg-blue-500 hover:bg-blue-700 rounded-md shadow hover:shadow-solid text-white px-4 py-2">
     Save
   </button>

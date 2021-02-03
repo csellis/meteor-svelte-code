@@ -2,6 +2,8 @@
   import { Link } from "svelte-routing";
   import { Meteor } from "meteor/meteor";
   import { useTracker } from "meteor/rdb:svelte-meteor-data";
+  import { fly } from "svelte/transition";
+  import { elasticOut } from 'svelte/easing';
 
   export let menuOpen = false;
   export let profileOpen = false;
@@ -9,14 +11,10 @@
   export let url;
   let title = "Title";
 
-console.log(location.pathname)
+// console.log(location.pathname)
+console.log(url)
   $: user = useTracker(() => Meteor.user());
   $: userId = useTracker(() => Meteor.userId());
-  $: if (location.pathname === "/shop") {
-    title = "Shop"
-  } else {
-    title = "Plan"
-  }
 
   function toggleMobileMenu(event) {
     menuOpen = !menuOpen;
@@ -30,6 +28,18 @@ console.log(location.pathname)
     Meteor.logout();
   }
 
+  function scale(node, { duration }) {
+      return {
+        duration,
+        css: t => {
+          const eased = elasticOut(t);
+          console.log(eased)
+          return `
+            transform: scale(${eased}));
+          `
+        }
+      };
+    }
 
   // todo make class updates
 </script>
@@ -110,14 +120,13 @@ console.log(location.pathname)
                     on:click={toggleProfile}
                     class="max-w-xs bg-indigo-600 rounded-full flex items-center
                     text-sm focus:outline-none focus:ring-2 focus:ring-offset-2
-                    focus:ring-offset-indigo-600 focus:ring-white"
+                    focus:ring-offset-indigo-600 focus:ring-white text-indigo-200"
                     id="user-menu"
                     aria-haspopup="true">
                     <span class="sr-only">Open user menu</span>
-                    <img
-                      class="h-8 w-8 rounded-full"
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      alt="" />
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
                   </button>
                 </div>
                 <!--
@@ -218,14 +227,15 @@ console.log(location.pathname)
 
       Open: "block", closed: "hidden"
     -->
-    <div class="{menuOpen ? 'block' : 'hidden'} md:hidden">
+    {#if menuOpen}
+    <div transition:fly={{ y: -500 }} class="md:hidden">
       <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
         {#if $user}
           <!-- Current: "bg-indigo-700 text-white", Default: "text-white hover:bg-indigo-500 hover:bg-opacity-75" -->
           <Link
             to="/"
             on:click={toggleMobileMenu}
-            class="bg-indigo-700 text-white block px-3 py-2 rounded-md text-base
+            class="text-white block px-3 py-2 rounded-md text-base
             font-medium">
             Plan
           </Link>
@@ -248,13 +258,12 @@ console.log(location.pathname)
         {/if}
 
       </div>
-      <div class="pt-4 pb-3 border-t border-indigo-700">
+      <div class="pt-4 pb-3 border-t border-indigo-700 text-indigo-200">
         <div class="flex items-center px-5">
           <div class="flex-shrink-0">
-            <img
-              class="h-10 w-10 rounded-full"
-              src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
-              alt="{$user?.emails[0].address}" />
+            <svg class="h-10 w-10 rounded-full" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
           </div>
           <div class="ml-3">
             <div class="text-base font-medium text-white">{$user?.emails[0].address}</div>
@@ -307,22 +316,13 @@ console.log(location.pathname)
         </div>
       </div>
     </div>
+    {/if}
   </nav>
-
-  <header class="bg-white shadow-sm">
-    <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-      <h1 class="text-lg leading-6 font-semibold text-gray-900">
-        {title}
-      </h1>
-    </div>
-  </header>
   <main>
     <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-      <!-- Replace with your content -->
       <div class="px-4 py-4 sm:px-0">
         <slot />
       </div>
-      <!-- /End replace -->
     </div>
   </main>
 </div>
