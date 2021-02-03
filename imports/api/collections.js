@@ -1,5 +1,5 @@
 import { Mongo } from "meteor/mongo";
-
+import { Meteor } from "meteor/meteor";
 if(Meteor.isServer) {
   Meteor.startup(function () {  
     Items._ensureIndex({ "name": "text"});

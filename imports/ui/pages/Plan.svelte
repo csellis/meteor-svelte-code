@@ -138,6 +138,7 @@
   {/if}
 
 
+  {#if $userItems.categorizedUserItems.length > 0}
   <div class="bg-white border border-gray-300 overflow-hidden rounded-md mt-4">
     <ul class="divide-y divide-gray-300">
         <li class="px-6 py-4 flex justify-between bg-indigo-50">
@@ -150,7 +151,7 @@
       {/each}
     </ul>
   </div>
-
+  {/if}
 </div>
 
 

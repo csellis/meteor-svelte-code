@@ -1,7 +1,7 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-    import { useTracker } from "meteor/rdb:svelte-meteor-data";
-      import { Items, UserItems } from "../../api/collections";
+  import { useTracker } from "meteor/rdb:svelte-meteor-data";
+  import { Items, UserItems } from "../../api/collections";
 
 
 

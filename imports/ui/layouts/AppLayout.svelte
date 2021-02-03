@@ -253,13 +253,13 @@ console.log(location.pathname)
           <div class="flex-shrink-0">
             <img
               class="h-10 w-10 rounded-full"
-              src=""
-              alt="" />
+              src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
+              alt="{$user?.emails[0].address}" />
           </div>
           <div class="ml-3">
-            <div class="text-base font-medium text-white">Chris Ellis</div>
+            <div class="text-base font-medium text-white">{$user?.emails[0].address}</div>
             <div class="text-sm font-medium text-indigo-300">
-              ellis.cs@gmail.com
+              
             </div>
           </div>
           <button

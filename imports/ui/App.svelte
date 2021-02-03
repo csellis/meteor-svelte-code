@@ -20,6 +20,7 @@
   }
 
   Window.UserItems = UserItems;
+  // Window.Meteor.users = Meteor.users
  
 
 
