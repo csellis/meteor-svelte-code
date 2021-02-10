@@ -5,13 +5,6 @@
   export let location;
 </script>
 
-<style>
-  h3 {
-    display: none;
-  }
-</style>
-
-<div>
-  <h3>Login</h3>
+<div id="loginWindow" class="sm:mx-auto sm:w-full sm:max-w-md">
   <LoginWindow />
 </div>

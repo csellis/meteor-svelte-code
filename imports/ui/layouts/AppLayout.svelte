@@ -65,21 +65,7 @@ console.log(url)
                   to="/"
                   class="text-white hover:bg-indigo-500 hover:bg-opacity-75 px-3
                   py-2 rounded-md text-sm font-medium">
-                  Plan
-                </Link>
-
-                <Link
-                  to="/shop"
-                  class="text-white hover:bg-indigo-500 hover:bg-opacity-75 px-3
-                  py-2 rounded-md text-sm font-medium">
-                  Shop
-                </Link>
-
-                <Link
-                  to="/categories"
-                  class="text-white hover:bg-indigo-500 hover:bg-opacity-75 px-3
-                  py-2 rounded-md text-sm font-medium">
-                  Categories
+                  Dashboard
                 </Link>
               {/if}
 

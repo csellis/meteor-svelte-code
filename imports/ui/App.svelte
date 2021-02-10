@@ -5,7 +5,7 @@
 
   import AppLayout from "./layouts/AppLayout.svelte";
 
-  import Plan from "./pages/Plan";
+  import Dashboard from "./pages/Dashboard";
   import Shop from "./pages/Shop";
   import Login from "./pages/Login";
   import Categories from "./pages/Categories";
@@ -26,9 +26,10 @@
 
 <Router {url}>
   <AppLayout {url} {location}>
-    <Route path="/" component={Plan} />
-    <Route path="/shop" component={Shop} />
-    <Route path="/login" component={Login} />
-    <Route path="/categories" component={Categories} />
+    <Route path="/" component={Dashboard} />
+       <Route path="/login" component={Login} />
+    <!-- <Route path="/shop" component={Shop} />
+ 
+    <Route path="/categories" component={Categories} /> -->
   </AppLayout>
 </Router>
