@@ -4,6 +4,10 @@
     $: handler = Plaid.create({
       token,
       onSuccess: (public_token, metadata) => {
+        Meteor.call("Plaid.exchangePublicToken", public_token, (err, res) => {
+          if(err) console.log({err})
+          if(res) console.log({res})
+        })
         console.log(public_token)
       },
       onLoad: () => {},
