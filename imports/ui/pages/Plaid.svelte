@@ -20,7 +20,8 @@
     handler.open();
   }
 </script>
-
-<button on:click={openLink} class="text-white rounded-lg px-4 py-2 bg-gradient-to-r from-green-400 to-indigo-500">
-  Add Account
+<button on:click={openLink} type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm 
+  text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 
+  focus:ring-offset-2 focus:ring-cyan-500">
+  Add account
 </button>

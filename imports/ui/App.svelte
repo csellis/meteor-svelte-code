@@ -4,6 +4,7 @@
   import { UserItems } from "../api/collections";
 
   import AppLayout from "./layouts/AppLayout.svelte";
+  import Layout from "./layouts/Layout.svelte";
 
   import Dashboard from "./pages/Dashboard";
   import Shop from "./pages/Shop";
@@ -25,11 +26,11 @@
 </script>
 
 <Router {url}>
-  <AppLayout {url} {location}>
+  <Layout {url} {location}>
     <Route path="/" component={Dashboard} />
        <Route path="/login" component={Login} />
     <!-- <Route path="/shop" component={Shop} />
  
     <Route path="/categories" component={Categories} /> -->
-  </AppLayout>
+  </Layout>
 </Router>
