@@ -21,4 +21,6 @@
   }
 </script>
 
-<button on:click={openLink}>Open Link</button>
+<button on:click={openLink} class="text-white rounded-lg px-4 py-2 bg-gradient-to-r from-green-400 to-indigo-500">
+  Add Account
+</button>

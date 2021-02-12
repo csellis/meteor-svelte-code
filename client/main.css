@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-#loginWindow {
-
-}
 
 #loginWindow h3 {
   margin: auto;

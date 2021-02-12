@@ -1,5 +1,6 @@
 import { Mongo } from "meteor/mongo";
-import { Meteor } from "meteor/meteor";
+// import { Meteor } from "meteor/meteor";
 
-export const Accounts = new Mongo.Collection("accounts");
+export var Accounts = new Mongo.Collection("accounts");
+export var Transactions = new Mongo.Collection("transactions");
 

@@ -1,4 +1,4 @@
-import { Accounts } from "./collections";
+import { Accounts, Transactions } from "./collections";
 require('dotenv').config({
   path: '../../../../../.env'
 })
@@ -17,7 +17,7 @@ if(Meteor.isServer) {
     env = plaid.environments.development
   }
 
-  const plaidClient = new plaid.Client({
+  const client = new plaid.Client({
     clientID: process.env.PLAID_CLIENT_ID,
     secret,
     env,
@@ -30,7 +30,7 @@ if(Meteor.isServer) {
         throw new Meteor.Error('need-user', 'You must be logged in.')
       }
 
-      const response = await plaidClient
+      const response = await client
         .createLinkToken({
           user: {
             client_user_id: userId,
@@ -55,7 +55,7 @@ if(Meteor.isServer) {
     },
     "Plaid.exchangePublicToken": async function exchangePublicToken(PUBLIC_TOKEN) {
       try {
-        const response = await plaidClient.exchangePublicToken(PUBLIC_TOKEN);
+        const response = await client.exchangePublicToken(PUBLIC_TOKEN);
         const accessToken = response.access_token;
         const itemId = response.item_id;
 
@@ -67,10 +67,38 @@ if(Meteor.isServer) {
         console.log(error)
       }
     },
+    "Plaid.syncTransactions": function syncTransactions() {
+
+      const accounts = Accounts.find({ userId: Meteor.userId() }).fetch()
+        .slice(0,1);
+
+      accounts.forEach(async account => {
+        const {access_token} = account;
+
+        const response = await client
+          .getTransactions(access_token, '2021-01-11', '2021-02-11', {
+            count: 250,
+            offset: 0,
+          })
+          .catch((err) => {
+            // handle error
+          });
+        
+        response.transactions.forEach(transaction => {
+          const { transaction_id } = transaction;
+          // check if exists
+          const transactionExists = Transactions.findOne({ transaction_id });
+          // insert if doesn't exist
+          if(!transactionExists) {
+            Transactions.insert(transaction)
+          }
+        })
+      })  
+    },
     "Accounts.insert": async function(accessToken, itemId) {
       // console.log({accessToken, itemId})
 
-      const response = await plaidClient.getAccounts(accessToken).catch(err => console.log(err));
+      const response = await client.getAccounts(accessToken).catch(err => console.log(err));
       console.log(response)
       response.accounts.forEach(account => {
         const accountExists = Accounts.findOne({ account_id: account.account_id});
