@@ -2,22 +2,16 @@ require('dotenv').config({
   path: '../../../../../.env'
 })
 import { Meteor } from 'meteor/meteor';
-import { Accounts } from '../../api/collections.js';
+import { Accounts, Transactions, Settings } from '../../api/collections.js';
 
 const plaid = require('plaid');
 
 // console.log(process.env.PLAID_CLIENT_ID)
-
-
-const plaidClient = new plaid.Client({
-  clientID: process.env.PLAID_CLIENT_ID,
-  secret: process.env.PLAID_SECRET,
-  env: plaid.environments.sandbox,
-});
-
 import '../../api/methods';
 
 Meteor.startup(() => {
+  initializeSettings();
+
   // var categories = ['Uncategorized', 'Baby', 'Bakery', 'Beer, Wine & Spirits', 'Beverages', 'Bread', 'Breakfast & Cereals', 'Candy',
   //   'Canned Goods & Soups', 'Chocolate', 'Cleaning & Home', 'Coffee & Tea', 'Condiments', 'Cookies & Crackers', 'Dairy', 'Eggs', 'Cheese', 'Deli Case', 'Deli Counter',
   //   'Diet Foods', 'Juice', 'Frozen Foods', 'Fruits & Vegetables', 'Grains & Pasta', 'Side Dishes', 'Greeting Cards',
@@ -38,7 +32,14 @@ Meteor.startup(() => {
   //     });
   //   });
   // }
-
-
 })
 
+function initializeSettings() {
+  const STARTING_DATE = new Date('2020-01-01');
+  const settings = Settings.findOne();
+  if (!settings) {
+    Settings.insert({
+      lastSyncedDate: STARTING_DATE
+    })
+  }
+}

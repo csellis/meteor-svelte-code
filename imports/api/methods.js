@@ -1,4 +1,6 @@
-import { Accounts, Transactions } from "./collections";
+import { Accounts, Transactions, Settings } from "./collections";
+import { format, add } from 'date-fns'
+
 require('dotenv').config({
   path: '../../../../../.env'
 })
@@ -68,20 +70,28 @@ if(Meteor.isServer) {
       }
     },
     "Plaid.syncTransactions": function syncTransactions() {
-
-      const accounts = Accounts.find({ userId: Meteor.userId() }).fetch()
-        .slice(0,1);
-
+      const settings = Settings.findOne()
+      const formatDate = (date) => format(date, "yyyy-MM-dd");
+      
+      const STARTING_DATE = new Date(settings.lastSyncedDate);
+      
+      const accounts = Accounts.find({ userId: Meteor.userId() }).fetch();
+      // console.log({starting, ending})
+      
       accounts.forEach(async account => {
+        let dateReached = new Date(account.dateReached) || new Date(STARTING_DATE);
+        const starting = formatDate(dateReached) 
+        const ending = formatDate(add(dateReached, { months: 1}))
         const {access_token} = account;
 
         const response = await client
-          .getTransactions(access_token, '2021-01-11', '2021-02-11', {
+          .getTransactions(access_token, starting, ending, {
             count: 250,
             offset: 0,
           })
           .catch((err) => {
             // handle error
+            throw new Meteor.Error(err)
           });
         
         response.transactions.forEach(transaction => {
@@ -90,7 +100,27 @@ if(Meteor.isServer) {
           const transactionExists = Transactions.findOne({ transaction_id });
           // insert if doesn't exist
           if(!transactionExists) {
-            Transactions.insert(transaction)
+            if(new Date(transaction.date) > new Date(dateReached)) {
+              console.log(`Updating ${account.name} date to ${dateReached}`)
+              dateReached = transaction.date
+            }
+
+            const data = {
+              ...transaction,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+              userId: Meteor.userId(),
+
+            }
+            Transactions.insert(data)
+          }
+        })
+
+        // Update account to the date reached, if a lot of transactions it will only update to as
+        // it got
+        Accounts.update(account._id, {
+          $set: {
+            dateReached
           }
         })
       })  
