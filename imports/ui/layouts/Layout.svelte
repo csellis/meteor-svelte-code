@@ -1,18 +1,22 @@
 <script>
-  import { Link } from "svelte-routing";
+
   import { Meteor } from "meteor/meteor";
   import { useTracker } from "meteor/rdb:svelte-meteor-data";
   import { fade } from "svelte/transition";
   import { elasticOut } from 'svelte/easing';
+  import NavLink from "../components/NavLink"
 
   export let menuOpen = false;
   export let profileOpen = false;
   export let location;
   export let url;
   let title = "Title";
+  
+
+  console.log({url, location})
 
 // console.log(location.pathname)
-console.log(url)
+// console.log(url)
   $: user = useTracker(() => Meteor.user());
   $: userId = useTracker(() => Meteor.userId());
 
@@ -87,13 +91,13 @@ console.log(url)
         <nav class="mt-5 flex-shrink-0 h-full divide-y divide-cyan-800 overflow-y-auto" aria-label="Sidebar">
           <div class="px-2 space-y-1">
             <!-- Current: "bg-cyan-800 text-white", Default: "text-cyan-100 hover:text-white hover:bg-cyan-600" -->
-            <Link to="/" class="bg-cyan-800 text-white group flex items-center px-2 py-2 text-base font-medium rounded-md" aria-current="page">
+            <NavLink to="/" class="bg-cyan-800 text-white group flex items-center px-2 py-2 text-base font-medium rounded-md" aria-current="page">
               <!-- Heroicon name: outline/home -->
               <svg class="mr-4 h-6 w-6 text-cyan-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
               </svg>
               Transactions
-            </Link>
+            </NavLink>
 
             <a href="#" class="text-cyan-100 hover:text-white hover:bg-cyan-600 group flex items-center px-2 py-2 text-base font-medium rounded-md">
               <!-- Heroicon name: outline/clock -->
@@ -186,21 +190,21 @@ console.log(url)
         <nav class="mt-5 flex-1 flex flex-col divide-y divide-cyan-800 overflow-y-auto" aria-label="Sidebar">
           <div class="px-2 space-y-1">
             <!-- Current: "bg-cyan-800 text-white", Default: "text-cyan-100 hover:text-white hover:bg-cyan-600" -->
-            <Link to="/" class="bg-cyan-800 text-white group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md" aria-current="page">
+            <NavLink to="/" activeClass="bg-cyan-800 text-white" defaultClass="text-cyan-100 hover:text-white hover:bg-cyan-600 group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md" aria-current="page">
               <!-- Heroicon name: outline/home -->
               <svg class="mr-4 h-6 w-6 text-cyan-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
               </svg>
               Transactions
-            </Link>
+            </NavLink>
 
-            <Link to="/accounts" class="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md text-cyan-100 hover:text-white hover:bg-cyan-600">
+            <NavLink to="/accounts" activeClass="bg-cyan-800 text-white" defaultClass="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md text-cyan-100 hover:text-white hover:bg-cyan-600">
               <!-- Heroicon name: outline/scale -->
               <svg class="mr-4 h-6 w-6 text-cyan-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
               </svg>
               Accounts
-            </Link>
+            </NavLink>
 
             <a href="#" class="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md text-cyan-100 hover:text-white hover:bg-cyan-600">
               <!-- Heroicon name: outline/clock -->

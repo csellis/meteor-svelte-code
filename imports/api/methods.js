@@ -9,7 +9,7 @@ if(Meteor.isServer) {
   const plaid = require('plaid');
   // console.log("ClientId: " + process.env.PLAID_CLIENT_ID + " && " + process.env.PLAID_SECRET)
 
-  let isSandbox = true,secret, env;
+  let isSandbox = true, secret, env;
 
   if(isSandbox) {
     secret = process.env.PLAID_SANDBOX;
