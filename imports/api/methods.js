@@ -1,5 +1,5 @@
 import { Accounts, Transactions, Settings } from "./collections";
-import { format, add } from 'date-fns'
+import { format, add, isToday } from 'date-fns'
 
 require('dotenv').config({
   path: '../../../../../.env'
@@ -9,7 +9,7 @@ if(Meteor.isServer) {
   const plaid = require('plaid');
   // console.log("ClientId: " + process.env.PLAID_CLIENT_ID + " && " + process.env.PLAID_SECRET)
 
-  let isSandbox = true, secret, env;
+  let isSandbox = false, secret, env;
 
   if(isSandbox) {
     secret = process.env.PLAID_SANDBOX;
@@ -25,6 +25,8 @@ if(Meteor.isServer) {
     env,
   });
 
+  // console.log(client)
+
   Meteor.methods({
     "Plaid.createLinkToken": async function() {
       const userId = Meteor.userId();
@@ -37,9 +39,9 @@ if(Meteor.isServer) {
           user: {
             client_user_id: userId,
           },
-          client_name: 'Plaid Test App',
+          client_name: 'The Divide App',
           products: ['auth', 'transactions'],
-          country_codes: ['US'],
+          country_codes: ['GB'],
           language: 'en',
           // webhook: 'https://sample-web-hook.com',
           // account_filters: {
@@ -52,6 +54,7 @@ if(Meteor.isServer) {
           // handle error
           console.log(err)
         });
+        console.log(response)
       const linkToken = response.link_token;
         return linkToken
     },
@@ -115,14 +118,28 @@ if(Meteor.isServer) {
             Transactions.insert(data)
           }
         })
+        
 
         // Update account to the date reached, if a lot of transactions it will only update to as
         // it got
-        Accounts.update(account._id, {
-          $set: {
-            dateReached
+        // case where no transactions, Monzo only had a few transactions much later
+        if(isToday(dateReached)) {
+          console.log("nothing to see here, no updated needed")
+        } else {
+          console.log({dateReached, account: account.dateReached})
+          if(new Date(dateReached).getTime() === new Date(account.dateReached).getTime()) {
+            console.log('date reached never changed, updating')
+            dateReached = new Date(ending);
           }
-        })
+          console.log({dateReached})
+          const upd = Accounts.update(account._id, {
+            $set: {
+              dateReached
+            }
+          })
+          console.log(upd)
+        }
+      
       })  
     },
     "Accounts.insert": async function(accessToken, itemId) {
@@ -147,7 +164,8 @@ if(Meteor.isServer) {
             updatedAt: new Date(),
             userId: Meteor.userId(),
             item_id: itemId,
-            access_token: accessToken
+            access_token: accessToken,
+            dateReached: "2020-01-01"
           }
           Accounts.insert(newAccount);
         }

@@ -13,7 +13,7 @@
   let title = "Title";
   
 
-  console.log({url, location})
+  // console.log({url, location})
 
 // console.log(location.pathname)
 // console.log(url)
