@@ -54,7 +54,7 @@ if(Meteor.isServer) {
           // handle error
           console.log(err)
         });
-        console.log(response)
+        // console.log(response)
       const linkToken = response.link_token;
         return linkToken
     },
