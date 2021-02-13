@@ -271,7 +271,7 @@
     </div>
   </div>
 
-  <div class="flex-1 overflow-auto focus:outline-none" tabindex="0">
+  <div class="flex-1 overflow-auto focus:outline-none flex flex-col" tabindex="0">
     <div class="relative z-10 flex-shrink-0 flex h-16 bg-white border-b border-gray-200 lg:border-none">
       <button on:click={toggleMobileMenu} class="px-4 border-r border-gray-200 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500 lg:hidden">
         <span class="sr-only">Open sidebar</span>

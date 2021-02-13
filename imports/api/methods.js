@@ -173,6 +173,22 @@ if(Meteor.isServer) {
           Accounts.insert(newAccount);
         }
       })
+    },
+    "Accounts.updateName": function(selectedAccount) {
+      const updatedAccount =  Accounts.update({_id: selectedAccount._id}, {
+        $set: {
+          name: selectedAccount.name
+        }
+      })
+      const updatedTransactions = Transactions.update({ account_id: selectedAccount.account_id}, {
+        $set: {
+          account_name: selectedAccount.name
+        }
+      }, {multi: true})
+      return {
+        updatedAccount,
+        updatedTransactions
+      }
     }
   });
 }
