@@ -1,4 +1,4 @@
-import { Transactions } from "./collections";
+import { Transactions, Accounts } from "./collections";
 Meteor.methods({
   "Transactions.fixDates"() {
     const transactions = Transactions.find().fetch();
@@ -10,6 +10,21 @@ Meteor.methods({
           date: new Date(transaction.date)
         }
       })
+    })
+  },
+  "Transactions.addAccountNames"() {
+    const accounts = Accounts.find().fetch();
+
+    accounts.forEach(account => {
+      const updated = Transactions.update({ account_id: account.account_id }, {
+        $set: {
+          account_name: account.name
+        }
+      }, {
+        multi: true
+      })
+      console.log(`Working on ${account.name}, updated ${updated}`);
+
     })
   }
 })

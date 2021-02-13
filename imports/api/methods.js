@@ -108,12 +108,15 @@ if(Meteor.isServer) {
               dateReached = transaction.date
             }
 
+            const account_name = Accounts.findOne({ account_id: transaction.account_id }).name;
+
             const data = {
               ...transaction,
               createdAt: new Date(),
               updatedAt: new Date(),
               userId: Meteor.userId(),
-
+              date: new Date(transaction.date),
+              account_name
             }
             Transactions.insert(data)
           }

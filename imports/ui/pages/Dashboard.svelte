@@ -7,6 +7,8 @@
   import AccountFormatter from "../components/AccountFormatter";
   import Plaid from './Plaid'
 
+  import TransactionDetail from '../components/TransactionDetail'
+
   import { Accounts } from "../../api/collections";
 
   $: allAccounts = useTracker(() => Accounts.find({}).fetch());
@@ -14,6 +16,21 @@
 
   export let location;
   let linkToken = "";
+  let selectedTransaction = {};
+  let showSlideover = false
+
+
+  function handleSelectedTransaction(transaction) {
+    // selectedTransaction
+    // console.log({transaction, showSlideover})
+    selectedTransaction = transaction;
+    showSlideover = true;
+  }
+
+  function toggleSlideover() {
+    showSlideover = !showSlideover;
+  }
+  
 
   function getLinkToken() {
     Meteor.call("Plaid.createLinkToken", (err, res) => {
@@ -28,7 +45,6 @@
       console.log(res)
     });
   }
-
 
   const dateFormatter = (date) => {
     const parsed = new Date(date);
@@ -239,14 +255,14 @@
                   <tbody>
                     <!-- Odd row -->
                     {#each $allTransactions as transaction, index}
-                    <tr class="{ index % 2 === 0 ? "bg-white" : "bg-gray-50"}">
+                    <tr on:click={handleSelectedTransaction(transaction)} class="{ index % 2 === 0 ? "bg-white" : "bg-gray-50"} cursor-pointer">
                       <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                         {dateFormatter(transaction.date)}
                       </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 max-w-xs truncate">
                         {transaction.name}
                       </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 max-w-xs truncate">
                         {categoryFormatter(transaction.category)}
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -300,3 +316,5 @@
     </div>
   </div>
 </div>
+
+<TransactionDetail {showSlideover} {selectedTransaction} {toggleSlideover} {$allAccounts} />
