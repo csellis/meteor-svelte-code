@@ -7,6 +7,7 @@
   import Layout from "./layouts/Layout.svelte";
 
   import Dashboard from "./pages/Dashboard";
+  import Accounts from "./pages/Accounts";
   import Shop from "./pages/Shop";
   import Login from "./pages/Login";
   import Categories from "./pages/Categories";
@@ -28,7 +29,8 @@
 <Router {url}>
   <Layout {url} {location}>
     <Route path="/" component={Dashboard} />
-       <Route path="/login" component={Login} />
+    <Route path="/accounts" component={Accounts} />
+    <Route path="/login" component={Login} />
     <!-- <Route path="/shop" component={Shop} />
  
     <Route path="/categories" component={Categories} /> -->

@@ -21,10 +21,11 @@
   }
 
   function syncTransactions() {
-    Meteor.call("Plaid.syncTransactions", (err, res) => {
-      if (err) console.warn(err);
-      console.log(res)
-    });
+    console.log("Doesn't do anything at the moment")
+    // Meteor.call("Plaid.syncTransactions", (err, res) => {
+    //   if (err) console.warn(err);
+    //   console.log(res)
+    // });
   }
 
   export let location;
@@ -39,6 +40,11 @@
     }).format(parsed);
   }
 
+  const amountAvailable = (accounts) => {
+    const reducer = (accumulator, account) => accumulator + account.balances.current;
+    return accounts.reduce(reducer, 0);
+  }
+
   const categoryFormatter = (categories) => {
     return categories.join(": ")
   }
@@ -47,6 +53,10 @@
     const name = allAccounts.find(account => account.account_id === accountId).name;
     return name;
   }
+
+  // const hasBalance = (account) => {
+  //   if(account.)
+  // }
 
   getLinkToken();
 
@@ -69,7 +79,7 @@
                   <div class="flex items-center">
                     <img class="h-16 w-16 rounded-full sm:hidden" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixqx=jmNhzyT2t1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80" alt="">
                     <h1 class="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
-                      Good morning, Emilia
+                      Good morning, Chris
                     </h1>
                   </div>
                   <dl class="mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">
@@ -106,109 +116,83 @@
       </div>
 
       <div class="mt-8">
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-lg leading-6 font-medium text-gray-900">Overview</h2>
-            <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3" x-max="1">
-              <!-- Card -->
-              
-                <div class="bg-white overflow-hidden shadow rounded-lg">
-                  <div class="p-5">
-                    <div class="flex items-center">
-                      <div class="flex-shrink-0">
-                        <svg class="h-6 w-6 text-gray-400" x-description="Heroicon name: outline/scale" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path>
-</svg>
-                      </div>
-                      <div class="ml-5 w-0 flex-1">
-                        <dl>
-                          <dt class="text-sm font-medium text-gray-500 truncate">
-                            Account balance
-                          </dt>
-                          <dd>
-                            <div class="text-lg font-medium text-gray-900">
-                              $30,659.45
-                            </div>
-                          </dd>
-                        </dl>
-                      </div>
-                    </div>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 class="text-lg leading-6 font-medium text-gray-900">Overview</h2>
+          <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <!-- Card -->
+
+            <div class="bg-white overflow-hidden shadow rounded-lg">
+              <div class="p-5">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0">
+                    <!-- Heroicon name: outline/scale -->
+                    <svg class="h-6 w-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+                    </svg>
                   </div>
-                  <div class="bg-gray-50 px-5 py-3">
-                    <div class="text-sm">
-                      <a href="#" class="font-medium text-cyan-700 hover:text-cyan-900">
-                        View all
-                      </a>
-                    </div>
+                  <div class="ml-5 w-0 flex-1">
+                    <dl>
+                      <dt class="text-sm font-medium text-gray-500 truncate">
+                        Account balance
+                      </dt>
+                      <dd>
+                        <div class="text-lg font-medium text-gray-900">
+                          {amountAvailable($allAccounts)}
+                          $30,659.45, Not right
+                        </div>
+                      </dd>
+                    </dl>
                   </div>
                 </div>
-              
-                <div class="bg-white overflow-hidden shadow rounded-lg">
-                  <div class="p-5">
-                    <div class="flex items-center">
-                      <div class="flex-shrink-0">
-                        <svg class="h-6 w-6 text-gray-400" x-description="Heroicon name: outline/refresh" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-</svg>
-                      </div>
-                      <div class="ml-5 w-0 flex-1">
-                        <dl>
-                          <dt class="text-sm font-medium text-gray-500 truncate">
-                            Pending
-                          </dt>
-                          <dd>
-                            <div class="text-lg font-medium text-gray-900">
-                              -$19,500.00
-                            </div>
-                          </dd>
-                        </dl>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="bg-gray-50 px-5 py-3">
-                    <div class="text-sm">
-                      <a href="#" class="font-medium text-cyan-700 hover:text-cyan-900">
-                        View all
-                      </a>
-                    </div>
-                  </div>
+              </div>
+              <div class="bg-gray-50 px-5 py-3">
+                <div class="text-sm">
+                  <a href="#" class="font-medium text-cyan-700 hover:text-cyan-900">
+                    View all
+                  </a>
                 </div>
-              
-                <div class="bg-white overflow-hidden shadow rounded-lg">
-                  <div class="p-5">
-                    <div class="flex items-center">
-                      <div class="flex-shrink-0">
-                        <svg class="h-6 w-6 text-gray-400" x-description="Heroicon name: outline/check-circle" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-</svg>
-                      </div>
-                      <div class="ml-5 w-0 flex-1">
-                        <dl>
-                          <dt class="text-sm font-medium text-gray-500 truncate">
-                            Processed (last 30 days)
-                          </dt>
-                          <dd>
-                            <div class="text-lg font-medium text-gray-900">
-                              $20,000
-                            </div>
-                          </dd>
-                        </dl>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="bg-gray-50 px-5 py-3">
-                    <div class="text-sm">
-                      <a href="#" class="font-medium text-cyan-700 hover:text-cyan-900">
-                        View all
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              
+              </div>
             </div>
+
+            <div class="bg-white overflow-hidden shadow rounded-lg">
+              <div class="p-5">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0">
+                    <!-- Heroicon name: outline/scale -->
+                    <svg class="h-6 w-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+                    </svg>
+                  </div>
+                  <div class="ml-5 w-0 flex-1">
+                    <dl>
+                      <dt class="text-sm font-medium text-gray-500 truncate">
+                        Todo
+                      </dt>
+                      <dd>
+                        <div class="text-lg font-medium text-gray-900">
+                          Will need to sort through accounts, and have separate for £
+                        </div>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-gray-50 px-5 py-3">
+                <div class="text-sm">
+                  <a href="#" class="font-medium text-cyan-700 hover:text-cyan-900">
+                    View all
+                  </a>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- More items... -->
           </div>
+        </div>
 
         <h2 class="max-w-6xl mx-auto mt-8 px-4 text-lg leading-6 font-medium text-gray-900 sm:px-6 lg:px-8">
-          Recent activity
+          Accounts
         </h2>
 
         <!-- Activity list (smallest breakopoint only) -->
@@ -260,41 +244,34 @@
                   <thead class="bg-gray-50">
                     <tr>
                       <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Date
+                        Account Name
                       </th>
                       <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Transaction
+                        Current Balance
                       </th>
                       <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Category
-                      </th>
-                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Account
-                      </th>
-                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Amount
+                        Date Synced
                       </th>
                     </tr>
                   </thead>
                   <tbody>
-                    <!-- Odd row -->
-                    {#each $allTransactions as transaction, index}
+                    {#each $allAccounts as account, index}
                     <tr class="{ index % 2 === 0 ? "bg-white" : "bg-gray-50"}">
                       <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {dateFormatter(transaction.date)}
+                        {account.name}
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {transaction.name}
+                        <MoneyString amount={account.balances.current} denomination={account.balances.iso_currency_code} />
+                        {#if account.balances.available && account.balances.available !== account.balances.current}
+                        <span class="font-thin italic">
+                          (<MoneyString amount={account.balances.available} denomination={account.balances.iso_currency_code} />)
+                        </span>
+                        {/if}
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {categoryFormatter(transaction.category)}
+                        {dateFormatter(account.dateReached)}
                       </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        <AccountFormatter accounts={$allAccounts} accountId={transaction.account_id} />
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <MoneyString amount={transaction.amount} denomination={transaction.iso_currency_code} />
-                      </td>
+
                     </tr>
                   {/each}
                   </tbody>
