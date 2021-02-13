@@ -1,5 +1,5 @@
 import { Accounts, Transactions, Settings } from "./collections";
-import { format, add, isToday } from 'date-fns'
+import { format, add, isToday, isAfter } from 'date-fns'
 
 require('dotenv').config({
   path: '../../../../../.env'
@@ -96,6 +96,10 @@ if(Meteor.isServer) {
             // handle error
             throw new Meteor.Error(err)
           });
+
+        
+        
+          console.log(object)
         
         response.transactions.forEach(transaction => {
           const { transaction_id } = transaction;
@@ -135,13 +139,20 @@ if(Meteor.isServer) {
             dateReached = new Date(ending);
           }
           console.log({dateReached})
-          const upd = Accounts.update(account._id, {
-            $set: {
-              dateReached
-            }
-          })
-          console.log(upd)
         }
+
+        // final catch, if date reached past today, set to today
+        if(isAfter(dateReached, new Date())) {
+          dateReached = new Date()
+        }
+
+        Accounts.update(account._id, {
+          $set: {
+            dateReached,
+            updatedAt: new Date(),
+            balances: response.accounts.balances
+          }
+        })
       
       })  
     },
