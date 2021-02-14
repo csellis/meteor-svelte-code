@@ -41,7 +41,7 @@ if(Meteor.isServer) {
           },
           client_name: 'The Divide App',
           products: ['auth', 'transactions'],
-          country_codes: ['GB'],
+          country_codes: ['US'],
           language: 'en',
           // webhook: 'https://sample-web-hook.com',
           // account_filters: {
@@ -99,7 +99,7 @@ if(Meteor.isServer) {
 
         
         
-          console.log(object)
+          // console.log(object)
         
         response.transactions.forEach(transaction => {
           const { transaction_id } = transaction;

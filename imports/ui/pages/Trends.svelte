@@ -81,6 +81,10 @@
     return name
   }
 
+  // const hasBalance = (account) => {
+  //   if(account.)
+  // }
+
   getLinkToken()
 
   onMount(async () => {
