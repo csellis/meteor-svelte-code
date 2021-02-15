@@ -3,7 +3,6 @@
   import { useTracker } from 'meteor/rdb:svelte-meteor-data'
   import { Items, UserItems, Transactions } from '../../api/collections'
   import Header from '../components/Header'
-  import MoneyString from '../components/MoneyString'
   import AccountFormatter from '../components/AccountFormatter'
   import Plaid from '../components/Plaid'
   import AccountDetail from '../components/AccountDetail'

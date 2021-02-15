@@ -370,12 +370,12 @@
               >
                 <img
                   class="h-8 w-8 rounded-full"
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixqx=jmNhzyT2t1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  src="https://avatars.githubusercontent.com/u/814405?s=460&u=4e385cdbf6e1ca6426e15cc3f8f9b177c0cbe7ff&v=4"
                   alt=""
                 />
                 <span
                   class="hidden ml-3 text-gray-700 text-sm font-medium lg:block"
-                  ><span class="sr-only">Open user menu for </span>Emilia Birch</span
+                  ><span class="sr-only">Open user menu for </span>Chris Ellis</span
                 >
                 <!-- Heroicon name: solid/chevron-down -->
                 <svg

@@ -1,4 +1,4 @@
-import { Accounts, Transactions, Settings } from "./collections";
+import { Accounts, Transactions, Settings, Categories } from "./collections";
 import { format, add, isToday, isAfter } from 'date-fns'
 
 require('dotenv').config({
@@ -138,7 +138,7 @@ if(Meteor.isServer) {
             console.log('date reached never changed, updating')
             dateReached = new Date(ending);
           }
-          console.log({dateReached})
+          // console.log({dateReached})
         }
 
         // final catch, if date reached past today, set to today
@@ -155,6 +155,15 @@ if(Meteor.isServer) {
         })
       
       })  
+    },
+    "Plaid.getCategories": async function () {
+      const response = await client.getCategories().catch((err) => {
+        // handle error
+      });
+      const categories = response.categories;
+      categories.forEach(category => {
+        Categories.insert(category)
+      })
     },
     "Accounts.insert": async function(accessToken, itemId) {
       // console.log({accessToken, itemId})

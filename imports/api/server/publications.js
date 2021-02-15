@@ -15,3 +15,13 @@ Meteor.publish('allTransactions', function allTransactions() {
   // console.log(accounts.fetch())
   return transactions
 });
+
+Meteor.publish('transactionsByDate', function(startDate, endDate) {
+  console.log({startDate, endDate})
+  return Transactions.find({
+    "date": {
+      "$gte": new Date(startDate),
+      "$lte": new Date(endDate)
+    }
+  })
+});

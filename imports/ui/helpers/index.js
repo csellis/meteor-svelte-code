@@ -5,3 +5,14 @@ export const formatMoney = (amount, currency) => {
     currency,
   }).format(amount)
 }
+
+export const dateFormatter = (date) => {
+  const parsed = new Date(date)
+  return new Intl.DateTimeFormat('en', {
+    month: 'numeric',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  }).format(parsed)
+}
