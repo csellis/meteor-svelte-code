@@ -20,7 +20,8 @@ module.exports = {
       red: colors.rose,
       yellow: colors.amber,
       green: colors.emerald,
-      cyan: colors.cyan
+      cyan: colors.cyan,
+      rose: colors.rose,
     }
   },
   variants: {

@@ -5,4 +5,5 @@ module.exports = {
   svelteBracketNewLine: true,
   tabWidth: 2,
   singleQuote: true,
+  printWidth: 200
 }

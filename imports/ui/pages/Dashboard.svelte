@@ -389,5 +389,5 @@
   showSlideover="{showSlideover}"
   selectedTransaction="{selectedTransaction}"
   toggleSlideover="{toggleSlideover}"
-  $allAccounts="{$allAccounts}"
+  allAccounts="{$allAccounts}"
 />

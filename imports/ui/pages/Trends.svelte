@@ -44,4 +44,4 @@
   )
 </script>
 
-<TrendsDisplay transactions="{$allTransactions}" />
+<TrendsDisplay transactions="{allTransactions}" />
